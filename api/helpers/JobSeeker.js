@@ -1,7 +1,6 @@
 const async = require('async');
 const arrayify = require('./arrayify');
 const PDFJS = require('pdfjs-dist');
-const Job = require('../db/Job');
 
 class JobSeeker {
 
