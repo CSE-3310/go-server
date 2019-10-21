@@ -1,0 +1,48 @@
+header {
+    background-color: #eee;
+    padding: 8rem 0 2rem
+}
+
+#left {
+    font-size: 1.4rem;
+    
+}
+.property {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.property > span {
+    display: block;
+}
+.section {
+    margin-bottom: 3rem;    
+}
+h5 {
+    margin-bottom: .5rem;
+}
+hr {
+    margin-top: 0rem;
+    margin-bottom: 1.5rem;
+    border-color: #BC4966;
+}
+a {
+    color: #BC4966;
+}
+a:hover {
+    color: rgb(116, 30, 53)
+}
+.highlight {
+    background-color: #BC4966;
+}
+#desc {
+    font-size: 1.4rem;
+    
+}
+#description {
+    margin-top: 1.5rem;
+}
+#description > ul {
+    padding-left: 13px;
+    list-style-position: outside; 
+}
