@@ -1,6 +1,6 @@
 const async = require('async');
 const JobSeeker = require('./helpers/JobSeeker');
-
+const external = require('./helpers/external');
 module.exports = (app) => {
 
     /**
@@ -8,24 +8,18 @@ module.exports = (app) => {
      * and queries the db for jobs
      * and compares them
      */
-    app.post('/api/match', (req, res) => {
+    app.post('/api/match', async (req, res) => {
         let { location } = req.body || "";
         let { query } = req.body || "";
-        let { resume } = req.files || "";
+        let  filename = "https://raw.githubusercontent.com/vardaro/vardaro.github.io/master/assets/resume.pdf";
+        console.log(filename)
+        let user = new JobSeeker(location, query, filename);
 
-        let user = new JobSeeker(location, query);
-        async.parallel([
-            callback => user.renderPDF(resume.data, callback),
+        // Extract the resume, get jobs from external APIs
+        let [ resume, jobs ] = await Promise.all([user.renderPDF(filename), external.getJobs(user.location, user.query)]);
 
-            // query jobs here...
-        ], (err, results) => {
-            if (err) res.send(err);
-
-            console.log('');
-            user.matchJobs(results[1]);
-            user.sortJobsBy('matches');
-            res.send(user);
-        });
+        console.log(resume);
+        res.send(resume);
     });
 
 
