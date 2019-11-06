@@ -110,10 +110,9 @@ class JobSite {
 const httpPromise = link => {
   return new Promise((resolve, reject) => {
     request(link, (err, response, body) => {
-      // in addition to parsing the value, deal with possible errors
       if (err) return reject(err);
       try {
-        resolve(body);
+        resolve(JSON.parse(body));
       } catch (e) {
         reject(e);
       }
@@ -134,9 +133,11 @@ const getJobs = async (location, query) => {
     }
   ];
 
+  // TODO: MORE SITE SUPPORTED
   let promiseArray = SITES.map(cur => httpPromise(cur.link));
 
-  return Promise.all(promiseArray);
+  let array = await Promise.all(promiseArray);
+  return array;
 };
 
 /**

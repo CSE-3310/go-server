@@ -1,6 +1,6 @@
 const async = require("async");
-const arrayify = require("./arrayify");
-const external = require("./external");
+const stopword = require("stopword");
+const stemmer = require("stemmer");
 const PDFJS = require("pdfjs-dist");
 
 // PDFJS.disableTextLayer = true;
@@ -65,53 +65,28 @@ class JobSeeker {
   }
 
   async renderPDF(filename) {
-    // let buffer = await external.getFile(filename);
-    // get the text
-    // pdfjs getTextContent() returns an
-    // array of objects which contains a
-    // property 'str'
-    // this will concatenate all the objects
+    let words = await getPDFText(filename);
+    
+    // Filter out the stopwords from the PDF text
+    words = stopword.removeStopwords(words.split(/\s+/));
 
-    // return PDFJS.getDocument(filename).promise
-    //   .then(pdf => {
-    //     pdf.getPage(1).then(page => {
-    //       page.getTextContent().then(txt => {
-    //         let { items } = txt;
-    //         let concat = items.map(cur => cur.str).join("");
-    //         // this.resume.text = concat;
-    //         // this.resume.keywords = arrayify(concat);
+    // Remove the small words that escaped the stopword filter
+    words = words.filter((cur => cur.length > 2));
 
-    //         console.log(concat)
-    //         return concat;
-    //       });
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    // Stem what's left
+    words = words.map(cur => stemmer(cur));
 
-    return getPDFText(filename);
-
+    return words;
   }
 }
 
-const getPageText = async (pdf, pageNo) => {
-  const page = await pdf.getPage(pageNo);
-  const tokenizedText = await page.getTextContent();
-  const pageText = tokenizedText.items.map(token => token.str).join("");
-  return pageText;
-};
-
 const getPDFText = async source => {
   let pageText = "";
-  try {
-    const pdf = await PDFJS.getDocument(source).promise;
-    const page = await pdf.getPage(1);
-    const tokenizedText = await page.getTextContent();
-    pageText = tokenizedText.items.map(token => token.str).join("");
-  } catch (err) {
-    console.log(err);
-  }
+
+  const pdf = await PDFJS.getDocument(source).promise;
+  const page = await pdf.getPage(1);
+  const tokenizedText = await page.getTextContent();
+  pageText = tokenizedText.items.map(token => token.str).join("");
 
   return pageText;
 };
