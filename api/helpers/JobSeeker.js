@@ -3,6 +3,9 @@ const arrayify = require("./arrayify");
 const external = require("./external");
 const PDFJS = require("pdfjs-dist");
 
+// PDFJS.disableTextLayer = true;
+// PDFJS.disableWorker = true;
+
 class JobSeeker {
   constructor(location, query, resume) {
     this.location = location;
@@ -62,30 +65,55 @@ class JobSeeker {
   }
 
   async renderPDF(filename) {
-    let buffer = await external.getFile(filename);
-    console.log(buffer);
-
+    // let buffer = await external.getFile(filename);
     // get the text
     // pdfjs getTextContent() returns an
     // array of objects which contains a
     // property 'str'
     // this will concatenate all the objects
-    PDFJS.getDocument(buffer)
-      .then(pdf => {
-        pdf.getPage(1).then(page => {
-          page.getTextContent().then(txt => {
-            let { items } = txt;
-            let concat = items.map(cur => cur.str).join("");
-            this.resume.text = concat;
-            this.resume.keywords = arrayify(concat);
-            success();
-          });
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+
+    // return PDFJS.getDocument(filename).promise
+    //   .then(pdf => {
+    //     pdf.getPage(1).then(page => {
+    //       page.getTextContent().then(txt => {
+    //         let { items } = txt;
+    //         let concat = items.map(cur => cur.str).join("");
+    //         // this.resume.text = concat;
+    //         // this.resume.keywords = arrayify(concat);
+
+    //         console.log(concat)
+    //         return concat;
+    //       });
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+
+    return getPDFText(filename);
+
   }
 }
+
+const getPageText = async (pdf, pageNo) => {
+  const page = await pdf.getPage(pageNo);
+  const tokenizedText = await page.getTextContent();
+  const pageText = tokenizedText.items.map(token => token.str).join("");
+  return pageText;
+};
+
+const getPDFText = async source => {
+  let pageText = "";
+  try {
+    const pdf = await PDFJS.getDocument(source).promise;
+    const page = await pdf.getPage(1);
+    const tokenizedText = await page.getTextContent();
+    pageText = tokenizedText.items.map(token => token.str).join("");
+  } catch (err) {
+    console.log(err);
+  }
+
+  return pageText;
+};
 
 module.exports = JobSeeker;
