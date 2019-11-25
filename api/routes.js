@@ -1,6 +1,6 @@
-const async = require("async");
 const JobSeeker = require("./helpers/JobSeeker");
 const external = require("./helpers/external");
+const renderPDF = require("./helpers/pdf");
 module.exports = app => {
   /**
    * asynchronously renders the users resume
@@ -16,16 +16,18 @@ module.exports = app => {
     console.log(`Query: ${query}`);
     console.log(`File: ${filename}`);
 
-    let user = new JobSeeker(location, query, filename);
+    let user = new JobSeeker(location, query);
 
     // Extract the resume, get jobs from external APIs
     let [resume, jobs] = await Promise.all([
-      user.renderPDF(filename),
+      renderPDF(filename),
       external.getJobs(user.location, user.query)
     ]);
 
-    console.log(resume);
+    user.resume = resume;
 
-    res.send(resume);
+    let stats = user.matchJobs(jobs);
+
+    res.send(user);
   });
 };

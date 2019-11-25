@@ -1,6 +1,4 @@
 const request = require("request");
-const arrayify = require("./arrayify");
-const async = require("async");
 
 class Job {
   constructor(jobsite, initial) {
