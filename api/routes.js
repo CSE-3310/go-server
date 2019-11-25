@@ -1,4 +1,4 @@
-const JobSeeker = require("./helpers/JobSeeker");
+const User = require("./helpers/User");
 const external = require("./helpers/external");
 const renderPDF = require("./helpers/pdf");
 module.exports = app => {
@@ -16,7 +16,7 @@ module.exports = app => {
     console.log(`Query: ${query}`);
     console.log(`File: ${filename}`);
 
-    let user = new JobSeeker(location, query);
+    let user = new User(location, query);
 
     // Extract the resume, get jobs from external APIs
     let [resume, jobs] = await Promise.all([
@@ -25,9 +25,9 @@ module.exports = app => {
     ]);
 
     user.resume = resume;
+    
+    jobs = user.matchJobs(jobs);
 
-    let stats = user.matchJobs(jobs);
-
-    res.send(user);
+    res.send(jobs);
   });
 };

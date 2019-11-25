@@ -135,7 +135,7 @@ const getJobs = async (location, query) => {
   let promiseArray = SITES.map(cur => httpPromise(cur.link));
 
   let array = await Promise.all(promiseArray);
-  return array;
+  return array[0];
 };
 
 /**
