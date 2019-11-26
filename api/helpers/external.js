@@ -1,11 +1,24 @@
 const request = require("request");
 
+const memcache = require("memory-cache");
+
 const httpPromise = link => {
+  let cache_results = memcache.get(link);
+
+  if (cache_results) {
+    return new Promise((resolve, reject) => {
+      console.log(`Cache found for ${link}`);
+      resolve(cache_results);
+    });
+  }
+
   return new Promise((resolve, reject) => {
     request(link, (err, response, body) => {
       if (err) return reject(err);
       try {
-        resolve(JSON.parse(body));
+        let json = JSON.parse(body);
+        memcache.put(link, json);
+        resolve(json);
       } catch (e) {
         reject(e);
       }

@@ -23,20 +23,20 @@ class User {
 
       // find the percent of keys in object 1 that match object 2
       let count = 0;
-      let len = 0;
+      let length_iter = 0;
       for (let prop in this.resume.keywords) {
 
         if (hash[prop])
           count++;
 
-        len++;
+        length_iter++;
       }
 
-      let sim = (count / len) * 100;
+      let sim = (count / length_iter) * 100;
       jobs[i].sim = sim;
     }
-    console.log(this.resume.hash);
 
+    // Sort the jobs by rank, descending
     jobs = jobs.sort((a,b) => {
       return b.sim - a.sim;
     });
