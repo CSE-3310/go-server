@@ -10,7 +10,7 @@ module.exports = app => {
   app.post("/api/match", async (req, res) => {
     let { location } = req.body || "";
     let { query } = req.body || "";
-    let filename = "https://raw.githubusercontent.com/vardaro/vardaro.github.io/master/assets/resume.pdf";
+    let {filename} = req.body || "https://raw.githubusercontent.com/vardaro/vardaro.github.io/master/assets/resume.pdf";
 
     console.log(`Location: ${location}`);
     console.log(`Query: ${query}`);

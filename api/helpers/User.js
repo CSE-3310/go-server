@@ -3,7 +3,6 @@
 // PDFJS.disableWorker = true;
 
 const compose = require("./compose");
-const worker = require('worker_threads');
 
 class User {
   constructor(location, query) {
