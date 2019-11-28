@@ -1,5 +1,5 @@
 {
-  "name": "Venndr",
+  "name": "iresume",
   "main": "server.js",
   "dependencies": {
     "async": "^2.5.0",
@@ -21,16 +21,8 @@
   },
   "false": {},
   "scripts": {
-    "build": "gulp",
     "start": "node server.js",
-    "serve:dist": "gulp serve:dist",
-    "test": "gulp test",
-    "test:auto": "gulp test:auto",
-    "bower": "bower",
     "api": "node server",
-    "client": "cd app && npm run dev",
-    "both": "start npm run api && start npm run client",
-    "fill-db": "node api/db/db && exit 1"
   },
   "devDependencies": {}
 }
