@@ -22,7 +22,7 @@
   "false": {},
   "scripts": {
     "start": "node server.js",
-    "api": "node server",
+    "api": "node server"
   },
   "devDependencies": {}
 }
