@@ -10,13 +10,19 @@ module.exports = app => {
   app.post("/api/match", async (req, res) => {
     let { location } = req.body || "";
     let { query } = req.body || "";
-    let {filename} = req.body || "https://raw.githubusercontent.com/vardaro/vardaro.github.io/master/assets/resume.pdf";
+    let {filename} = req.body || "";
 
     console.log(`Location: ${location}`);
     console.log(`Query: ${query}`);
     console.log(`File: ${filename}`);
 
     let user = new User(location, query);
+
+    if (!filename) {
+      let jobs = await external.getJobs(user.location, user.query);
+      res.send(jobs);
+      return;
+    }
 
     // Extract the resume, get jobs from external APIs
     let [resume, jobs] = await Promise.all([
