@@ -2,7 +2,7 @@
   "name": "iresume",
   "main": "server.js",
   "dependencies": {
-    "async": "^2.5.0",
+    "async": "^2.6.4",
     "body-parser": "^1.4.3",
     "busboy-body-parser": "^0.3.0",
     "connect-busboy": "0.0.2",
