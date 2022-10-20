@@ -12,7 +12,7 @@
     "keyword-extractor": "0.0.14",
     "memory-cache": "^0.2.0",
     "method-override": "^2.0.2",
-    "mongoose": "^4.4.20",
+    "mongoose": "^4.13.21",
     "pdfjs": "^2.3.2",
     "pdfjs-dist": "^2.2.228",
     "request": "^2.81.0",
