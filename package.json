@@ -7,7 +7,7 @@
     "busboy-body-parser": "^0.3.0",
     "connect-busboy": "0.0.2",
     "cors": "^2.8.4",
-    "express": "^4.5.1",
+    "express": "^4.17.3",
     "express-fileupload": "^0.1.4",
     "keyword-extractor": "0.0.14",
     "memory-cache": "^0.2.0",
