@@ -14,7 +14,7 @@
     "method-override": "^2.0.2",
     "mongoose": "^4.4.20",
     "pdfjs": "^2.3.2",
-    "pdfjs-dist": "^2.2.228",
+    "pdfjs-dist": "^2.16.105",
     "request": "^2.81.0",
     "stemmer": "^1.0.4",
     "stopword": "^0.3.4"
